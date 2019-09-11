@@ -34,7 +34,7 @@ namespace CheckersBoard
             currentMove = null;
             winner = null;
             turn = "Black";
-            MakeBoard();
+            //MakeBoard();
         }
 
         private void ClearBoard()

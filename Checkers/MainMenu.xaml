@@ -8,8 +8,8 @@
         Title="MainMenu" Height="450" Width="800">
     <Grid>
         <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="380,65,0,0"/>
-        <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="444,236,0,0" Height="81"/>
-        <Button Content="Play Checkers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="48,236,0,0" Height="81"/>
+        <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="444,236,0,0" Height="81" Click="Button_Click_1"/>
+        <Button Content="Play Checkers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="48,236,0,0" Height="81" Click="Button_Click"/>
 
     </Grid>
 </Window>
