@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CheckersBoard.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="540" Width="500" ResizeMode="CanMinimize">
+        Title="Checkers" Height="540" Width="500" ResizeMode="CanMinimize">
     <Grid Name="CheckersGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>

@@ -34,7 +34,7 @@ namespace CheckersBoard
             currentMove = null;
             winner = null;
             turn = "Black";
-            //MakeBoard();
+            MakeBoard();
         }
 
         private void ClearBoard()
@@ -210,7 +210,7 @@ namespace CheckersBoard
             }
         }
 
-        private Boolean CheckMove()
+        private bool CheckMove()
         {
             StackPanel stackPanel1 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece1.Row, currentMove.piece1.Column);
             StackPanel stackPanel2 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece2.Row, currentMove.piece2.Column);
@@ -260,7 +260,7 @@ namespace CheckersBoard
         {
             CheckerBoard currentBoard = GetCurrentBoard();
             List<Move> jumpMoves = currentBoard.checkJumps("Red");
-
+            
             if (jumpMoves.Count > 0)
             {
                 bool invalid = true;
@@ -463,7 +463,6 @@ namespace CheckersBoard
                     {
                         board.SetState(r - 1, c, -1);
                     }
-
                 }
             }
             return board;
@@ -558,6 +557,29 @@ namespace CheckersBoard
             }
         }
 
+        public void AiGame()
+        {
+            currentMove = null;
+            winner = null;
+            bool yes = true;
+            this.Title = "Checkers! Red Turn!";
+            turn = "Red";
+            ClearBoard();
+            MakeBoard();
+            //while (yes == true)
+            //{
+            //    if (turn == "Red")
+            //    {
+            //        CheckMove();
+            //    }
+            //    else if (turn == "Black")
+            //    {
+            //        CheckMove();
+            //    }
+            //}
+
+            
+        }
         private void newGame()
         {
             currentMove = null;

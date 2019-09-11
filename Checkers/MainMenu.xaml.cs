@@ -26,9 +26,15 @@ namespace CheckersBoard
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            MainWindow game = new MainWindow();
+            game.Show();
         }
-
+        private void TestingAids_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow game = new MainWindow();
+            game.Show();
+            game.AiGame();
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Close();
