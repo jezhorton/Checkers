@@ -38,7 +38,7 @@ Because in the original designing and creation of most of the code was OOP addin
 
 #### In-Development
 1. ~~Main Menu~~
-2. AI vs AI
+2. ~~AI vs AI~~
 4. Dynamically updated drawing of the board (to allow for a visual representation of the AI vs AI game)
 3. Chess addition into the game??
 5. Two Player Mode __Nearly__

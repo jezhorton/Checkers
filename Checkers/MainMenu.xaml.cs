@@ -30,6 +30,7 @@ namespace CheckersBoard
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow game = new MainWindow();
+            game.playervsai = true;
             game.Show();
         }
 
@@ -41,7 +42,7 @@ namespace CheckersBoard
         private void TwoPlayer_Clickl(object sender, RoutedEventArgs e)
         {
             MainWindow game = new MainWindow();
-            game.testing = true;
+            game.playervsplayer = true;
             game.Show();
             game.TwoPlayer();
         }
@@ -49,6 +50,7 @@ namespace CheckersBoard
         private void AI_Click(object sender, RoutedEventArgs e)
         {
             MainWindow game = new MainWindow();
+            game.aivsai = true;
             game.testing = true;
             game.Show();
             game.AiGame();

@@ -17,18 +17,20 @@ namespace CheckersBoard
         String winner;
         String turn;
         public string turnAI = "Red";
-        public bool testing = false;
+        public bool testing = false, playervsplayer = false, playervsai = false, aivsai = false; //These are the bools to toggle between the menu items (game modes)
 
         public MainWindow()
         {
             InitializeComponent();
-            this.Title = "Checkers! Blacks turn!";
-            currentMove = null;
+            this.Title = "Checkers! Blacks turn!";//Setting the title of the window
+            currentMove = null; //Nulling the current move and winner to make sure there are no values passed in
             winner = null;
             turn = "Black";
             MakeBoard();
         }
-
+        /*=====================================
+         * Creating and initialising the chess board
+         * =====================================*/
         void ClearBoard()
         {
             for (int r = 1; r < 9; r++)
@@ -47,11 +49,11 @@ namespace CheckersBoard
             {
                 for (int c = 0; c < 8; c++)
                 {
-                    StackPanel stackPanel = new StackPanel();
+                    StackPanel stackPanel = new StackPanel(); //Creating new stack panels to allow the creation of children of the grid
                     if (r % 2 == 1)
                     {
                         if (c % 2 == 0)
-                            stackPanel.Background = Brushes.White;
+                            stackPanel.Background = Brushes.White;  //Painting the tiles
                         else
                             stackPanel.Background = Brushes.Black;
                     }
@@ -68,7 +70,7 @@ namespace CheckersBoard
                 }
             }
 
-            MakeButtons();
+            MakeButtons(); //Calling the making of the buttons at the end to make sure all the buttons are created and the AI and player can access the pieces
         }
 
         void MakeButtons()
@@ -79,22 +81,22 @@ namespace CheckersBoard
                 {
                     StackPanel stackPanel = (StackPanel)GetGridElement(CheckersGrid, r, c);
                     Button button = new Button();
-                    button.Click += new RoutedEventHandler(button_Click);
+                    button.Click += new RoutedEventHandler(button_Click); //Creating a new button on the black tiles in the grid
                     button.Height = 60;
                     button.Width = 60;
                     button.HorizontalAlignment = HorizontalAlignment.Center;
                     button.VerticalAlignment = VerticalAlignment.Center;
                     var redBrush = new ImageBrush();
-                    redBrush.ImageSource = new BitmapImage(new Uri("Resources/red60p.png", UriKind.Relative));
+                    redBrush.ImageSource = new BitmapImage(new Uri("Resources/red60p.png", UriKind.Relative)); //The location of the images to be applied to the buttons
                     var blackBrush = new ImageBrush();
                     blackBrush.ImageSource = new BitmapImage(new Uri("Resources/black60p.png", UriKind.Relative));
                     switch (r)
                     {
                         case 1:
-                            if (c % 2 == 1)
+                            if (c % 2 == 1) //Switch statement to create the buttons with the correct images on each button
                             {
 
-                                button.Background = redBrush;
+                                button.Background = redBrush; 
                                 button.Name = "buttonRed" + r + c;
                                 stackPanel.Children.Add(button);
                             }
@@ -164,7 +166,7 @@ namespace CheckersBoard
 
         UIElement GetGridElement(Grid g, int r, int c)
         {
-            for (int i = 0; i < g.Children.Count; i++)
+            for (int i = 0; i < g.Children.Count; i++) //This access all of the stack panels children allowing them to be used elsewhere in the AI
             {
                 UIElement e = g.Children[i];
                 if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c)
@@ -173,13 +175,13 @@ namespace CheckersBoard
             return null;
         }
 
-        public void button_Click(Object sender, RoutedEventArgs e)
+        public void button_Click(Object sender, RoutedEventArgs e) //This is the handler for all button presses from the player
         {
             Button button = (Button)sender;
             StackPanel stackPanel = (StackPanel)button.Parent;
-            int row = Grid.GetRow(stackPanel);
+            int row = Grid.GetRow(stackPanel); //Access what button is pressed
             int col = Grid.GetColumn(stackPanel);
-            Console.WriteLine("Row: " + row + " Column: " + col);
+            Console.WriteLine("Row: " + row + " Column: " + col); //Output to check the buttons are correct locations
             if (currentMove == null)
                 currentMove = new Move();
             if (currentMove.piece1 == null)
@@ -192,12 +194,22 @@ namespace CheckersBoard
                 currentMove.piece2 = new Piece(row, col);
                 stackPanel.Background = Brushes.Green;
             }
-            if ((currentMove.piece1 != null) && (currentMove.piece2 != null))
+            if ((currentMove.piece1 != null) && (currentMove.piece2 != null)) //This is in reference to the Piece.cs in the file (getters and setters)
             {
-                if (CheckMove())
+                if (playervsplayer) //Bool to check the gamemode
                 {
-                    MakeMove();
-                    aiMakeMove();
+                    if (CheckMove()) //Bool to see who's move it is
+                    {
+                        MakeMove(); //Method to handle the move and button presses
+                    }
+                }
+                else
+                {
+                    if (CheckMove())
+                    {
+                        MakeMove();
+                        aiMakeMove(); //Same as above but the ai making the move
+                    }
                 }
             }
         }
@@ -206,7 +218,7 @@ namespace CheckersBoard
         {
             StackPanel stackPanel1 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece1.Row, currentMove.piece1.Column);
             StackPanel stackPanel2 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece2.Row, currentMove.piece2.Column);
-            Button button1 = (Button) stackPanel1.Children[0];
+            Button button1 = (Button) stackPanel1.Children[0]; //Accessing the
             Button button2 = (Button) stackPanel2.Children[0];
             stackPanel1.Background = Brushes.Black;
             stackPanel2.Background = Brushes.Black;
@@ -289,7 +301,7 @@ namespace CheckersBoard
                         if (middleButton.Name.Contains("Black"))
                         {
                             CheckersGrid.Children.Remove(middleStackPanel);
-                            addBlackButton(middlePiece);
+                            AddBlackButton(middlePiece);
                             return true;
                         }
                     }
@@ -306,7 +318,7 @@ namespace CheckersBoard
                         if (middleButton.Name.Contains("Black"))
                         {
                             CheckersGrid.Children.Remove(middleStackPanel);
-                            addBlackButton(middlePiece);
+                            AddBlackButton(middlePiece);
                             return true;
                         }
                     }
@@ -354,7 +366,7 @@ namespace CheckersBoard
                         if (middleButton.Name.Contains("Red"))
                         {
                             CheckersGrid.Children.Remove(middleStackPanel);
-                            addBlackButton(middlePiece);
+                            AddBlackButton(middlePiece);
                             return true;
                         }
                     }
@@ -371,7 +383,7 @@ namespace CheckersBoard
                         if (middleButton.Name.Contains("Red"))
                         {
                             CheckersGrid.Children.Remove(middleStackPanel);
-                            addBlackButton(middlePiece);
+                            AddBlackButton(middlePiece);
                             return true;
                         }
                     }
@@ -398,7 +410,7 @@ namespace CheckersBoard
                 Grid.SetRow(stackPanel2, currentMove.piece1.Row);
                 Grid.SetColumn(stackPanel2, currentMove.piece1.Column);
                 CheckersGrid.Children.Add(stackPanel2);
-                checkKing(currentMove.piece2);
+                CheckKing(currentMove.piece2);
                 currentMove = null;
                 if (turn == "Black")
                 {
@@ -410,7 +422,7 @@ namespace CheckersBoard
                     this.Title = "Checkers! Blacks turn!";
                     turn = "Black";
                 }
-                checkWin();
+                CheckWin();
             }
         }
 
@@ -475,7 +487,7 @@ namespace CheckersBoard
             return board;
         }
 
-        void checkKing(Piece tmpPiece)
+        void CheckKing(Piece tmpPiece)
         {
             StackPanel stackPanel = (StackPanel)GetGridElement(CheckersGrid, tmpPiece.Row, tmpPiece.Column);
             if (stackPanel.Children.Count > 0)
@@ -504,7 +516,7 @@ namespace CheckersBoard
             }
         }
         
-        void addBlackButton(Piece middleMove)
+        void AddBlackButton(Piece middleMove)
         {
             StackPanel stackPanel = new StackPanel();
             stackPanel.Background = Brushes.Black;
@@ -522,7 +534,7 @@ namespace CheckersBoard
             CheckersGrid.Children.Add(stackPanel);
         }
 
-        void checkWin()
+        void CheckWin()
         {
             int totalBlack = 0, totalRed = 0;
             for (int r = 1; r < 9; r++)
@@ -611,42 +623,24 @@ namespace CheckersBoard
         {
             currentMove = null;
             winner = null;
-            this.Title = "Checkers! Red Turn!";
-            turn = "Red";
             ClearBoard();
             MakeBoard();
-            Random r = new Random();
-            int rint = r.Next(1, 10);
             for (int i = 0; i < 1000; i++)
             {
+                
                 //System.Threading.Thread.Sleep(20);
-                if (rint > 5)
-                {
                     if (i % 2 == 0)
                     {
                         turn = "Black";
-                        aiMakeMove();
+                        
                     }
                     else
                     {
                         turn = "Red";
-                        MakeMove();
+                        
                     }
-                }
-                else if (rint < 5)
-                {
+                
 
-                    if (i % 2 == 0)
-                    {
-                        turn = "Red";
-                        aiMakeMove();
-                    }
-                    else
-                    {
-                        turn = "Black";
-                        aiMakeMoveBlack();
-                    }
-                }
             }
 
         }
@@ -672,7 +666,10 @@ namespace CheckersBoard
 
         void newGame_Click(object sender, RoutedEventArgs e)
         {
-            newGame();
+            if (playervsai == true) { newGame(); }
+            else if (aivsai == true) { AiGame(); }
+            else if(playervsplayer == true) { TwoPlayer(); }
+            
         }
 
         void exit_Click(object sender, RoutedEventArgs e)
