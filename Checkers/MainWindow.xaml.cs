@@ -1,20 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Resources;
-using System.Windows.Shapes;
 
 namespace CheckersBoard
 {
@@ -23,9 +12,10 @@ namespace CheckersBoard
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Move currentMove;
-        private String winner;
-        private String turn;
+        Move currentMove;
+        String winner;
+        String turn;
+        public string turnAI = "Red";
 
         public MainWindow()
         {
@@ -37,7 +27,7 @@ namespace CheckersBoard
             MakeBoard();
         }
 
-        private void ClearBoard()
+        void ClearBoard()
         {
             for (int r = 1; r < 9; r++)
             {
@@ -49,7 +39,7 @@ namespace CheckersBoard
             }
         }
 
-        private void MakeBoard()
+        void MakeBoard()
         {
             for (int r = 1; r < 9; r++)
             {
@@ -79,7 +69,7 @@ namespace CheckersBoard
             MakeButtons();
         }
 
-        private void MakeButtons()
+        void MakeButtons()
         {
             for (int r = 1; r < 9; r++)
             {
@@ -210,7 +200,7 @@ namespace CheckersBoard
             }
         }
 
-        private bool CheckMove()
+        bool CheckMove()
         {
             StackPanel stackPanel1 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece1.Row, currentMove.piece1.Column);
             StackPanel stackPanel2 = (StackPanel)GetGridElement(CheckersGrid, currentMove.piece2.Row, currentMove.piece2.Column);
@@ -256,7 +246,7 @@ namespace CheckersBoard
             }
         }
 
-        private bool CheckMoveRed(Button button1, Button button2)
+        bool CheckMoveRed(Button button1, Button button2)
         {
             CheckerBoard currentBoard = GetCurrentBoard();
             List<Move> jumpMoves = currentBoard.checkJumps("Red");
@@ -321,7 +311,7 @@ namespace CheckersBoard
             return false;
         }
 
-        private bool CheckMoveBlack(Button button1, Button button2)
+        bool CheckMoveBlack(Button button1, Button button2)
         {
             CheckerBoard currentBoard = GetCurrentBoard();
             List<Move> jumpMoves = currentBoard.checkJumps("Black");
@@ -386,7 +376,7 @@ namespace CheckersBoard
             return false;
        }
 
-        private void MakeMove()
+        void MakeMove()
         {
             if ((currentMove.piece1 != null) && (currentMove.piece2 != null))
             {
@@ -418,7 +408,7 @@ namespace CheckersBoard
             }
         }
 
-        private void aiMakeMove()
+        void aiMakeMove()
         {
             currentMove = CheckersAI.GetMove(GetCurrentBoard());
             if (currentMove != null)
@@ -429,8 +419,19 @@ namespace CheckersBoard
                 }
             }
         }
+        void aiMakeMoveBlack()
+        {
+            currentMove = CheckersAI.GetMoveBlack(GetCurrentBoard());
+            if (currentMove != null)
+            {
+                if (CheckMove())
+                {
+                    MakeMove();
+                }
+            }
+        }
 
-        private CheckerBoard GetCurrentBoard()
+        CheckerBoard GetCurrentBoard()
         {
             CheckerBoard board = new CheckerBoard();
             for (int r = 1; r < 9; r++)
@@ -468,7 +469,7 @@ namespace CheckersBoard
             return board;
         }
 
-        private void checkKing(Piece tmpPiece)
+        void checkKing(Piece tmpPiece)
         {
             StackPanel stackPanel = (StackPanel)GetGridElement(CheckersGrid, tmpPiece.Row, tmpPiece.Column);
             if (stackPanel.Children.Count > 0)
@@ -497,7 +498,7 @@ namespace CheckersBoard
             }
         }
         
-        private void addBlackButton(Piece middleMove)
+        void addBlackButton(Piece middleMove)
         {
             StackPanel stackPanel = new StackPanel();
             stackPanel.Background = Brushes.Black;
@@ -515,7 +516,7 @@ namespace CheckersBoard
             CheckersGrid.Children.Add(stackPanel);
         }
 
-        private void checkWin()
+        void checkWin()
         {
             int totalBlack = 0, totalRed = 0;
             for (int r = 1; r < 9; r++)
@@ -561,26 +562,28 @@ namespace CheckersBoard
         {
             currentMove = null;
             winner = null;
-            bool yes = true;
             this.Title = "Checkers! Red Turn!";
             turn = "Red";
             ClearBoard();
             MakeBoard();
-            //while (yes == true)
-            //{
-            //    if (turn == "Red")
-            //    {
-            //        CheckMove();
-            //    }
-            //    else if (turn == "Black")
-            //    {
-            //        CheckMove();
-            //    }
-            //}
+            for (int i = 0; i < 100; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    turn = "Black";
+                    aiMakeMoveBlack();
+                }
+                else
+                {
+                    turn = "Red";
+                    aiMakeMove();
+                }
+            }
 
-            
         }
-        private void newGame()
+
+
+        void newGame()
         {
             currentMove = null;
             winner = null;
@@ -590,19 +593,47 @@ namespace CheckersBoard
             MakeBoard();
         }
 
-        private void displayError(string error)
+        void displayError(string error)
         {
             MessageBox.Show(error, "Invalid Move", MessageBoxButton.OK);
         }
 
-        private void newGame_Click(object sender, RoutedEventArgs e)
+        void newGame_Click(object sender, RoutedEventArgs e)
         {
             newGame();
         }
 
-        private void exit_Click(object sender, RoutedEventArgs e)
+        void exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        public void FulAIGame(Object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            StackPanel stackPanel = (StackPanel)button.Parent;
+            int row = Grid.GetRow(stackPanel);
+            int col = Grid.GetColumn(stackPanel);
+            Console.WriteLine("Row: " + row + " Column: " + col);
+            if (currentMove == null)
+                currentMove = new Move();
+            if (currentMove.piece1 == null)
+            {
+                currentMove.piece1 = new Piece(row, col);
+                stackPanel.Background = Brushes.Green;
+            }
+            else
+            {
+                currentMove.piece2 = new Piece(row, col);
+                stackPanel.Background = Brushes.Green;
+            }
+            if ((currentMove.piece1 != null) && (currentMove.piece2 != null))
+            {
+                if (CheckMove())
+                {
+                    aiMakeMove();
+                    aiMakeMove();
+                }
+            }
         }
     }
 }

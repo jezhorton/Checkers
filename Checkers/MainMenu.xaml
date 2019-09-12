@@ -8,10 +8,10 @@
         Title="MainMenu" Height="450" Width="800">
 
     <Grid>
-        <Label Content="Welcome to Checkers!" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="171,65,0,0" FontSize="48"/>
+        <Label Content="Welcome to Checkers!&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="155,65,0,0" FontSize="48" Height="74"/>
         <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="444,236,0,0" Height="81" Click="Button_Click_1"/>
         <Button Content="Play Checkers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="48,236,0,0" Height="81" Click="Button_Click"/>
-        <Button Content="Testing Aids" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="220,144,0,0" Height="81" Click="TestingAids_Click"/>
+        <Button Content="Testing Aids" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="253,144,0,0" Height="81" Click="TestingAids_Click"/>
     </Grid>
     
 </Window>
