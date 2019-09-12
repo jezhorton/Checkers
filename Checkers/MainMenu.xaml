@@ -9,10 +9,11 @@
 
     <Grid>
         <Label Content="Welcome to Checkers!&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="155,65,0,0" FontSize="48" Height="74"/>
-        <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="444,236,0,0" Height="81" Click="Button_Click_1"/>
-        <Button Content="Play Checkers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="48,236,0,0" Height="81" Click="Button_Click"/>
-        <Button Content="Testing AI" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Margin="10,10,0,0" Height="24" Click="AI_Click"/>
-        <Button Content="Testing Two Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Margin="667,10,0,0" Height="24" Click="TwoPlayer_Clickl"/>
+        <Button Content="Exit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="444,236,0,0" Height="81" Click="Button_Click_1" FontSize="20"/>
+        <Button Content="Play Checkers" HorizontalAlignment="Left" VerticalAlignment="Top" Width="306" Margin="48,236,0,0" Height="81" Click="Button_Click" FontSize="20"/>
+        <Button Content="Testing AI" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="10,10,0,0" Height="50" Click="AI_Click" FontSize="20"/>
+        <Button Content="Testing Two Player" HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Margin="542,10,0,0" Height="50" Click="TwoPlayer_Clickl" FontSize="20"/>
+        <Label Content="&#x9;&#x9;        Please review the cheque for your checkers! &#xD;&#xA;&#x9;&#x9;Not checking the cheque can lead to checking errors! &#xD;&#xA;&#x9;&#x9;                      Check that Shrek cheque!" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="155,139,0,0" Width="481" Height="66"/>
     </Grid>
 
 </Window>

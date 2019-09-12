@@ -611,6 +611,8 @@ namespace CheckersBoard
         {
             currentMove = null;
             winner = null;
+            this.Title = "Checkers! Red Turn!";
+            turn = "Red";
             ClearBoard();
             MakeBoard();
             Random r = new Random();
@@ -623,7 +625,7 @@ namespace CheckersBoard
                     if (i % 2 == 0)
                     {
                         turn = "Black";
-                        MakeMove();
+                        aiMakeMove();
                     }
                     else
                     {

@@ -43,7 +43,7 @@ Because in the original designing and creation of most of the code was OOP addin
 3. Chess addition into the game??
 5. Two Player Mode __Nearly__
 
-#### Completed Additional Components
-1. ~~AI vs AI~~
-2. ~~Main Menu~~
-3. ~~Player vs AI~~
+#### Known Bugs/Needed fixes
+* No double jump or more possible, need to add in full functionality for the game
+* New Game from the file in the corner of the game window, only recreates an AI vs Player game
+* Selecting an option doesn't close the main window
