@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace CheckersBoard
@@ -16,6 +17,7 @@ namespace CheckersBoard
         String winner;
         String turn;
         public string turnAI = "Red";
+        public bool testing = false;
 
         public MainWindow()
         {
@@ -213,7 +215,11 @@ namespace CheckersBoard
             {
                 currentMove.piece1 = null;
                 currentMove.piece2 = null;
-                displayError("It is blacks turn.");
+                if(testing != true)
+                {
+                    displayError("It is blacks turn.");
+
+                }
                 return false;
             }
             if ((turn == "Red") && (button1.Name.Contains("Black")))
@@ -566,22 +572,86 @@ namespace CheckersBoard
             turn = "Red";
             ClearBoard();
             MakeBoard();
-            for (int i = 0; i < 100; i++)
+            Random r = new Random();
+            int rint = r.Next(1, 10);
+            for (int i = 0; i < 1000; i++)
             {
-                if (i % 2 == 0)
+                //System.Threading.Thread.Sleep(20);
+                if (rint > 5)
                 {
-                    turn = "Black";
-                    aiMakeMoveBlack();
+                    if (i % 2 == 0)
+                    {
+                        turn = "Black";
+                        aiMakeMoveBlack();
+                    }
+                    else
+                    {
+                        turn = "Red";
+                        aiMakeMove();
+                    }
                 }
-                else
+                else if (rint < 5)
                 {
-                    turn = "Red";
-                    aiMakeMove();
+
+                    if (i % 2 == 0)
+                    {
+                        turn = "Red";
+                        aiMakeMove();
+                    }
+                    else
+                    {
+                        turn = "Black";
+                        aiMakeMoveBlack();
+                    }
                 }
             }
 
         }
+        public void TwoPlayer()
+        {
+            currentMove = null;
+            winner = null;
+            ClearBoard();
+            MakeBoard();
+            Random r = new Random();
+            int rint = r.Next(1, 10);
+            for (int i = 0; i < 1000; i++)
+            {
+                //System.Threading.Thread.Sleep(20);
+                if (rint > 5)
+                {
+                    if (i % 2 == 0)
+                    {
+                        turn = "Black";
+                        MakeMove();
+                    }
+                    else
+                    {
+                        turn = "Red";
+                        MakeMove();
+                    }
+                }
+                else if (rint < 5)
+                {
 
+                    if (i % 2 == 0)
+                    {
+                        turn = "Red";
+                        aiMakeMove();
+                    }
+                    else
+                    {
+                        turn = "Black";
+                        aiMakeMoveBlack();
+                    }
+                }
+            }
+
+        }
+        private async void waiting(int time)
+        {
+            await Task.Delay(time);
+        }
 
         void newGame()
         {
@@ -606,34 +676,6 @@ namespace CheckersBoard
         void exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-        public void FulAIGame(Object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            StackPanel stackPanel = (StackPanel)button.Parent;
-            int row = Grid.GetRow(stackPanel);
-            int col = Grid.GetColumn(stackPanel);
-            Console.WriteLine("Row: " + row + " Column: " + col);
-            if (currentMove == null)
-                currentMove = new Move();
-            if (currentMove.piece1 == null)
-            {
-                currentMove.piece1 = new Piece(row, col);
-                stackPanel.Background = Brushes.Green;
-            }
-            else
-            {
-                currentMove.piece2 = new Piece(row, col);
-                stackPanel.Background = Brushes.Green;
-            }
-            if ((currentMove.piece1 != null) && (currentMove.piece2 != null))
-            {
-                if (CheckMove())
-                {
-                    aiMakeMove();
-                    aiMakeMove();
-                }
-            }
         }
     }
 }

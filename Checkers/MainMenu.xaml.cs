@@ -14,11 +14,14 @@ using System.Windows.Shapes;
 
 namespace CheckersBoard
 {
+
+
     /// <summary>
     /// Interaction logic for MainMenu.xaml
     /// </summary>
     public partial class MainMenu : Window
     {
+
         public MainMenu()
         {
             InitializeComponent();
@@ -35,9 +38,18 @@ namespace CheckersBoard
             Close();
         }
 
-        private void Testing_Click(object sender, RoutedEventArgs e)
+        private void TwoPlayer_Clickl(object sender, RoutedEventArgs e)
         {
             MainWindow game = new MainWindow();
+            game.testing = true;
+            game.Show();
+            game.TwoPlayer();
+        }
+
+        private void AI_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow game = new MainWindow();
+            game.testing = true;
             game.Show();
             game.AiGame();
         }
